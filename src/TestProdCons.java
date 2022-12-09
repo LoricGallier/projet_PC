@@ -1,5 +1,7 @@
 import java.util.Properties;
 
+import javax.sql.rowset.spi.SyncFactory;
+
 public class TestProdCons {
 
     public static void main(String[] args) throws Exception {
@@ -22,17 +24,21 @@ public class TestProdCons {
 
         
         ProdConsBuffer buff = new ProdConsBuffer(minProd);
-        Thread thsP[] = new Producer[nProd];
-        Thread thsC[] = new Consumer[nCons];
+        Producer thsP[] = new Producer[nProd];
+        Consumer thsC[] = new Consumer[nCons];
+        System.out.println("nProd :"+ nProd);
+        System.out.println("nCons :"+ nCons);
 
         for (int i = 0; i < nProd; i++) {
             thsP[i] = new Producer(buff);
             thsP[i].start();
+            System.out.println("Thread Producer "+ i + " started");
         }
 
         for (int i = 0; i < nCons; i++) {
             thsC[i] = new Consumer(buff);
             thsC[i].start();
+            System.out.println("Thread Consumer "+ i + " started");
         }
 
         for (int i = 0; i < nProd; i++) {
@@ -49,6 +55,7 @@ public class TestProdCons {
                 e.printStackTrace();
             }
         }
+        System.out.println("prod fini");
 
     }
 

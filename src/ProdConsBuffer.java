@@ -20,7 +20,7 @@ public class ProdConsBuffer implements IProdConsBuffer {
     
 
     @Override
-    public void put(Message m) throws InterruptedException {
+    public synchronized void put(Message m) throws InterruptedException {
         while(nmsg == bufSz){
             wait();
         }
@@ -31,10 +31,8 @@ public class ProdConsBuffer implements IProdConsBuffer {
     }
 
     @Override
-    public Message get() throws InterruptedException {
-        while (nmsg == 0){
-            wait();
-        }
+    public synchronized Message get() throws InterruptedException {
+
         Message rep = buff[nfull];
         nfull = (nfull+1) % bufSz;
         nmsg--;
