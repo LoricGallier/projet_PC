@@ -21,17 +21,17 @@ public class TestProdCons {
 
 
         
-
+        ProdConsBuffer buff = new ProdConsBuffer(minProd);
         Thread thsP[] = new Producer[nProd];
         Thread thsC[] = new Consumer[nCons];
 
         for (int i = 0; i < nProd; i++) {
-            thsP[i] = new Thread();
+            thsP[i] = new Producer(buff);
             thsP[i].start();
         }
 
         for (int i = 0; i < nCons; i++) {
-            thsC[i] = new Thread();
+            thsC[i] = new Consumer(buff);
             thsC[i].start();
         }
 

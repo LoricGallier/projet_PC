@@ -1,33 +1,38 @@
 public class ProdConsBuffer implements IProdConsBuffer {
 
     Message[] buff;
-    int nempty, nfull = 0;
+    int nempty;
+    int nfull;
     int bufSz;
     int nmsg;
     int totmsg;
 
-    ProdConsBuffer (int n){
-        this.buff = new Message[n];
-        this.bufSz = n;
+    ProdConsBuffer (int bufSz){
+        this.nempty = 0;
+        this.nfull = 0;
+        this.buff = new Message[bufSz];
+        this.bufSz = bufSz;
+        this.nmsg = 0;
+        this.totmsg = 0;
+
     }
     
     
 
     @Override
     public void put(Message m) throws InterruptedException {
-        while(nmsg >= bufSz){
+        while(nmsg == bufSz){
             wait();
         }
         buff[nempty] = m;
         nempty = (nempty+1) % bufSz;
         nmsg++; totmsg++;
-        notify();
         
     }
 
     @Override
     public Message get() throws InterruptedException {
-        while (nmsg <= 0){
+        while (nmsg == 0){
             wait();
         }
         Message rep = buff[nfull];
@@ -45,9 +50,5 @@ public class ProdConsBuffer implements IProdConsBuffer {
     @Override
     public int totmsg() {
         return totmsg;
-    }
-
-    public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
     }
 }
