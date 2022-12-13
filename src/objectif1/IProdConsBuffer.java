@@ -1,3 +1,4 @@
+package objectif1;
 
 public interface IProdConsBuffer {
     /**
