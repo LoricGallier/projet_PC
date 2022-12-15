@@ -8,6 +8,7 @@ public class TestProdCons {
     public static void main(String[] args) throws Exception {
 
         Properties properties = new Properties();
+
         properties.loadFromXML(TestProdCons.class.getClassLoader().getResourceAsStream("options.xml"));
         int nProd = Integer.parseInt(properties.getProperty("nProd"));
         int nCons = Integer.parseInt(properties.getProperty("nCons"));
@@ -24,24 +25,24 @@ public class TestProdCons {
 
 
         
-        ProdConsBuffer buff = new ProdConsBuffer(minProd);
+        ProdConsBuffer buffer = new ProdConsBuffer(bufSz);
         Producer thsP[] = new Producer[nProd];
         Consumer thsC[] = new Consumer[nCons];
         System.out.println("nProd :"+ nProd);
         System.out.println("nCons :"+ nCons);
 
         for (int i = 0; i < nProd; i++) {
-            thsP[i] = new Producer(buff);
+            thsP[i] = new Producer(buffer, prodTime, minProd, maxProd);
             thsP[i].start();
-            System.out.println("Thread Producer "+ i + " started");
         }
 
         for (int i = 0; i < nCons; i++) {
-            thsC[i] = new Consumer(buff);
+            thsC[i] = new Consumer(buffer, prodTime);
             thsC[i].start();
-            System.out.println("Thread Consumer "+ i + " started");
         }
-
+        System.out.println(System.lineSeparator() + "Producer and consumer threads started." + System.lineSeparator());
+        
+        
         for (int i = 0; i < nProd; i++) {
             try {
                 thsP[i].join();
