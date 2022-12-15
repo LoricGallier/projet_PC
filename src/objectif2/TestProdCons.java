@@ -45,21 +45,21 @@ public class TestProdCons {
         System.out.println(System.lineSeparator() + "Producer and consumer threads started." + System.lineSeparator());
         
         
-        for (int i = 0; i < nProd; i++) {
-            try {
-                thsP[i].join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        for (int i = 0; i < nCons; i++) {
-            try {
-                thsC[i].join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        System.out.println("prod fini");
+        // for (int i = 0; i < nProd; i++) {
+        //     try {
+        //         thsP[i].join();
+        //     } catch (InterruptedException e) {
+        //         e.printStackTrace();
+        //     }
+        // }
+        // for (int i = 0; i < nCons; i++) {
+        //     try {
+        //         thsC[i].join();
+        //     } catch (InterruptedException e) {
+        //         e.printStackTrace();
+        //     }
+        // }
+        // System.out.println("prod fini");
 
     }
 
