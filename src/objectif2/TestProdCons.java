@@ -39,7 +39,7 @@ public class TestProdCons {
         }
 
         for (int i = 0; i < nCons; i++) {
-            thsC[i] = new Consumer(buffer, prodTime);
+            thsC[i] = new Consumer(buffer, consTime);
             thsC[i].start();
         }
         System.out.println(System.lineSeparator() + "Producer and consumer threads started." + System.lineSeparator());

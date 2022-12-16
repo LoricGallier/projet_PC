@@ -13,7 +13,7 @@ public class Consumer extends Thread {
             try {
                 final Message m = buffer.get();
 
-                if (m == Message.NULL_MESSAGE){
+                if (m == Message.NULL_MESSAGE){ // si le message est null, on arrete le thread
                     break;
                 }
                 Thread.sleep(this.consTime);

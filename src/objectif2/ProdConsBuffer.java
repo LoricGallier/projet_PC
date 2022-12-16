@@ -10,8 +10,8 @@ public class ProdConsBuffer implements IProdConsBuffer {
 
 
         this.bufSz = bufSz;
-        this.totmsgProduced = 0;
-        this.totmsgConsumed = 0;
+        this.totmsgProduced = 0;//
+        this.totmsgConsumed = 0;//
         this.msgtoproduce = 0;
 
 
@@ -45,6 +45,8 @@ public class ProdConsBuffer implements IProdConsBuffer {
     public synchronized Message get() throws InterruptedException {
 
         while(this.head==-1) {
+        // Tant que le buffer est vide, les threads consommateurs tentant d'y retirer
+		// renvoie un message sont mis en attente.
             if (this.totmsgProduced - this.totmsgConsumed ==0)
             {
                 return Message.NULL_MESSAGE;
@@ -57,7 +59,7 @@ public class ProdConsBuffer implements IProdConsBuffer {
 		else
 			this.head = (this.head + 1) % this.bufSz;
 
-        totmsgConsumed++;
+        totmsgConsumed++;//
         System.out.println(Thread.currentThread().toString() + " Consumed message:      " + message);
 
         this.notifyAll();
@@ -84,6 +86,7 @@ public class ProdConsBuffer implements IProdConsBuffer {
         return this.totmsgProduced;
     }
 
+    //Spécifiee un nbr de messages qui seront déposés dans le buffer par un producteur
     public void addUpcomingMessages(int count) {
 		this.msgtoproduce += count;
 	}

@@ -14,6 +14,7 @@ public class Producer extends Thread {
         this.nbmsg = (int) (minProd*(1.0 - f) + maxProd*f);
 
         this.sent = 0;
+        System.out.println(this.getId());
 
     }
 
@@ -21,7 +22,7 @@ public class Producer extends Thread {
     public void run() {
         while(this.nbmsg-this.sent > 0){
             try {
-                this.buffer.put(new Message("Message " + (this.getId() * 1000 + this.sent), this.getId()));
+                this.buffer.put(new Message("MessageP " + (this.getId() * 1000 + this.sent), this.getId()));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } 

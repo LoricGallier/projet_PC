@@ -13,6 +13,7 @@ public class Producer extends Thread {
         double f = Math.random()/Math.nextDown(1.0);
         this.nbmsg = (int) (minProd*(1.0 - f) + maxProd*f);
 
+        // On informe le buffer que cet objet va produire un certain nombre de messages
         if (buffer instanceof ProdConsBuffer)
 			((ProdConsBuffer) buffer).addUpcomingMessages(this.nbmsg);
         

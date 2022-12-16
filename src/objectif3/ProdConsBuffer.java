@@ -7,7 +7,7 @@ public class ProdConsBuffer implements IProdConsBuffer {
     long WAITING_TIME = 1L;
 
     Message[] buffer;
-    Semaphore semaphore;
+    Semaphore semaphore; // semaphore pour la synchronisation
     int head, tail, bufSz, totmsgProduced, totmsgConsumed, msgtoproduce;
 
     ProdConsBuffer (int bufSz){
@@ -30,7 +30,13 @@ public class ProdConsBuffer implements IProdConsBuffer {
 
     @Override
     public void put(Message m) throws InterruptedException {
-        this.semaphore.acquire();
+        // Le producteur entrant dans cette méthode demande l'acquisition du sémaphore.
+		// Si libre, il continue, sinon, il est mis en attente
+		this.semaphore.acquire();
+		
+		// Tant que le buffer est vide, les threads producteurs tentant d'y déposer
+		// un message relâchent le sémaphore, afin que d'autres threads (consommateurs) puissent le prendre,
+		// puis tentent de reprendre le sémaphore.
 
         while(this.head == this.tail){
             this.semaphore.release();
@@ -53,7 +59,13 @@ public class ProdConsBuffer implements IProdConsBuffer {
 
     @Override
     public Message get() throws InterruptedException {
-        this.semaphore.acquire();
+        // Le consommateur entrant dans cette méthode demande l'acquisition du sémaphore.
+		// Si sém libre, il continue, sinon, il est mis en attente
+		this.semaphore.acquire();
+		
+		// Tant que le buffer est vide, les threads consommateurs tentant d'y retirer
+		// un message relâchent le sémaphore, afin que d'autres threads (producteurs) puissent le prendre,
+		// puis tentent de reprendre le sémaphore.
 
         while(this.head==-1) {
             if (this.totmsgProduced - this.totmsgConsumed ==0)
